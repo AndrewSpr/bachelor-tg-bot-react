@@ -109,7 +109,7 @@ const Form = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required
-              style={{ minHeight: '100px' }}
+              style={{ minHeight: '280px', maxWidth: '100%', resize: 'none' }}
             />
             </div>
           </form>

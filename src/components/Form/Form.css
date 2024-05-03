@@ -8,8 +8,24 @@
 .feedback-type-buttons {
     display: flex;
     justify-content: space-between;
-    max-width: 150px;
+    max-width: 250px;
     margin-bottom: 20px;
+}
+
+.feedback-type-buttons button {
+    height: 30px;
+    width: 110px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.feedback-type-buttons ._active {
+    background-color: #272A3D;
+    color: white;
+    border-color: #272A3D;
 }
 
 .feedback-form {
