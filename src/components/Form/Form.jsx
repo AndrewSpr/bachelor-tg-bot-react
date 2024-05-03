@@ -2,84 +2,119 @@ import React, { useState } from 'react';
 import './Form.css';
 
 const Form = () => {
-    const [selectedType, setSelectedType] = useState('QUESTION');
     const [orderNumber, setOrderNumber] = useState('');
-    const [contactMethod, setContactMethod] = useState('');
+    const [contactType, setContactType] = useState('phone');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [message, setMessage] = useState('');
+    const [feedbackType, setFeedbackType] = useState('complaint'); // 'question' или 'complaint'
   
-    const handleTypeChange = (event) => {
-      setSelectedType(event.target.value);
-    };
-  
-    const handleOrderNumberChange = (event) => {
-      setOrderNumber(event.target.value);
-    };
-  
-    const handleContactMethodChange = (event) => {
-      setContactMethod(event.target.value);
-    };
-  
-    const handleInputChange = (event) => {
-      setMessage(event.target.value);
-    };
-  
-    const handleSubmit = (event) => {
-      event.preventDefault();
+    const handleSubmit = (e) => {
+      e.preventDefault();
   
       const data = {
-        type: selectedType,
-        orderNumber: orderNumber,
-        contactMethod: contactMethod,
-        message: message,
+        orderNumber,
+        contactType,
+        phoneNumber,
+        message,
+        feedbackType,
       };
   
-      console.log('Form submitted:', data);
+      // Отправить данные на сервер (API)
+      axios.post('/feedback', data)
+        .then(response => {
+          console.log('Форма успешно отправлена!');
+          // Очистить форму
+          setOrderNumber('');
+          setContactType('phone');
+          setPhoneNumber('');
+          setMessage('');
+        })
+        .catch(error => {
+          console.error('Ошибка отправки формы:', error);
+        });
     };
-
+  
+    const handleFeedbackTypeChange = (e) => {
+      setFeedbackType(e.target.value);
+    };
+  
     return (
-        <div className='feedback-form'>
-                  <h2>Форма обратной связи</h2>
-      <p>У вас возникли какие-то вопросы? Хотите оставить жалобу? Без проблем! Свяжитесь с нами, заполнив поля ниже, и мы обязательно ответим вам!</p>
-      <p>Среднее время ожидания ответа: 15 минут</p>
-
-      <div className="type-buttons">
-        <label>
-          <input type="radio" name="type" value="QUESTION" checked={selectedType === 'QUESTION'} onChange={handleTypeChange} />
-          Вопрос
-        </label>
-        <label>
-          <input type="radio" name="type" value="COMPLAINT" checked={selectedType === 'COMPLAINT'} onChange={handleTypeChange} />
-          Жалоба
-        </label>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        {selectedType === 'COMPLAINT' && (
-          <div className="order-number-field">
+      <div className='feedback-body'>
+        <h2>Обратная связь</h2>
+  
+        <div className="feedback-type-buttons">
+          <button
+            type="button"
+            className={feedbackType === 'question' ? '_active' : ''}
+            onClick={() => setFeedbackType('question')}
+          >
+            ВОПРОС
+          </button>
+          <button
+            type="button"
+            className={feedbackType === 'complaint' ? '_active' : ''}
+            onClick={() => setFeedbackType('complaint')}
+          >
+            ЖАЛОБА
+          </button>
+        </div>
+  
+        <form className='feedback-form' onSubmit={handleSubmit}>
+          <div className="form-group">
             <label htmlFor="orderNumber">Номер заказа:</label>
-            <input type="text" id="orderNumber" value={orderNumber} onChange={handleOrderNumberChange} />
+            <select
+              id="orderNumber"
+              name="orderNumber"
+              value={orderNumber}
+              onChange={(e) => setOrderNumber(e.target.value)}
+              disabled={feedbackType === 'question'}
+              required={feedbackType === 'complaint'}
+            >
+              {/* Заполнить данными из базы данных mySQL */}
+            </select>
           </div>
-        )}
-
-        <div className="contact-method-field">
-          <label htmlFor="contactMethod">Способ связи:</label>
-          <select id="contactMethod" value={contactMethod} onChange={handleContactMethodChange}>
-            <option value="">Выберите способ связи</option>
-            <option value="email">Email</option>
-            <option value="phone">Телефон</option>
-            <option value="chat">Чат</option>
-          </select>
+  
+          <div className="form-group">
+            <label htmlFor="contactType">Способ связи:</label>
+            <select
+              id="contactType"
+              name="contactType"
+              value={contactType}
+              onChange={(e) => setContactType(e.target.value)}
+            >
+              <option value="phone">Номер телефона</option>
+              <option value="telegram">Telegram чат</option>
+            </select>
+          </div>
+  
+          {contactType === 'phone' && (
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Номер телефона:</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                required
+              />
+            </div>
+          )}
+  
+          <div className="form-group">
+            <label htmlFor="message">{feedbackType === 'complaint' ? 'Суть жалобы:' : 'Суть вопроса:'}</label>
+            <textarea
+              id="message"
+              name="message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
+              style={{ minHeight: '100px' }}
+            />
+            </div>
+          </form>
         </div>
-
-        <div className="message-field">
-          <label htmlFor="message">Суть вопроса/жалобы:</label>
-          <textarea id="message" value={message} onChange={handleInputChange} />
-        </div>
-
-        <button type="submit">Отправить</button>
-      </form>
-        </div>
-    );
+      );
 };
 
 export default Form;

@@ -1,0 +1,24 @@
+.feedback-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 250px;
+}
+
+.feedback-type-buttons {
+    display: flex;
+    justify-content: space-between;
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
