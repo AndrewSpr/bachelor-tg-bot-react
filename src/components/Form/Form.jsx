@@ -6,21 +6,23 @@ const Form = () => {
     const [orderNumber, setOrderNumber] = useState('');
     const [contactType, setContactType] = useState('phone');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [message, setMessage] = useState('');
+    const [name, setName] = useState('');
+    const [telegramNickname, setTelegramNickname] = useState('');
     const [feedbackType, setFeedbackType] = useState('complaint'); // 'question' или 'complaint'
 
     const {tg} = useTelegram();
 
     const onSendData = useCallback( () => {
       const data = {
+        name,
         orderNumber,
         contactType,
         phoneNumber,
-        message,
+        telegramNickname,
         feedbackType
       }
       tg.sendData(JSON.stringify(data));
-    }, [orderNumber, contactType, phoneNumber, message, feedbackType])
+    }, [name, orderNumber, contactType, phoneNumber, telegramNickname, feedbackType])
 
     useEffect( () => {
       tg.onEvent('mainButtonClicked', onSendData)
@@ -35,13 +37,13 @@ const Form = () => {
       })
     }, [])
 
-    useEffect( () => {
+    /*useEffect( () => {
       if(!message) {
         tg.MainButton.hide();
       } else {
         tg.MainButton.show();
       }
-    }, [message])
+    }, [message])*/
   
     const handleSubmit = (e) => {
      /* e.preventDefault();
@@ -112,7 +114,17 @@ const Form = () => {
               {/* Заполнить данными из базы данных mySQL */}
             </select>
           </div>
-  
+          <div className="form-group">
+              <label htmlFor="name">Як нам до Вас звертатись?</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
           <div className="form-group">
             <label htmlFor="contactType">Спосіб зв'язку:</label>
             <select
@@ -139,18 +151,19 @@ const Form = () => {
               />
             </div>
           )}
-  
-          <div className="form-group">
-            <label htmlFor="message">{feedbackType === 'complaint' ? 'Ваша скарга:' : 'Ваше запитання:'}</label>
-            <textarea
-              id="message"
-              name="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-              style={{ minHeight: '280px', maxWidth: '100%', resize: 'none' }}
-            />
+          {contactType === 'telegram' && (
+            <div className="form-group">
+              <label htmlFor="telegramNickname">Ваше имя пользователя: @</label>
+              <input
+                type="text"
+                id="telegramNickname"
+                name="telegramNickname"
+                value={telegramNickname}
+                onChange={(e) => setTelegramNickname(e.target.value)}
+                required
+              />
             </div>
+          )}
           </form>
         </div>
       );
