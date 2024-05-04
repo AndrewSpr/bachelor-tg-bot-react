@@ -13,7 +13,7 @@ const Form = () => {
     const {tg} = useTelegram();
 
     const onSendData = useCallback(() => {
-      if (!name || !phoneNumberIsValid() || (contactType === 'telegram' && !telegramNicknameIsValid())) {
+      if (!name || (contactType === 'telegram' && !telegramNicknameIsValid())) {
         alert('Пожалуйста, заполните все обязательные поля корректно.');
         return;
       }
