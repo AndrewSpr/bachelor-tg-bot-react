@@ -8,13 +8,13 @@ const Form = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [name, setName] = useState('');
     const [telegramNickname, setTelegramNickname] = useState('');
-    const [feedbackType, setFeedbackType] = useState('complaint'); // 'question' или 'complaint'
+    const [feedbackType, setFeedbackType] = useState('complaint');
 
     const {tg} = useTelegram();
 
     const onSendData = useCallback(() => {
       if (!name || (contactType === 'phone' && !phoneNumberIsValid()) || (contactType === 'telegram' && !telegramNicknameIsValid())) {
-        alert('Пожалуйста, заполните все обязательные поля корректно.');
+        alert('Будь-ласка, заповніть всі обов\'язкові поля коректно');
         return;
       }
     
@@ -29,15 +29,13 @@ const Form = () => {
       tg.sendData(JSON.stringify(data));
     }, [name, orderNumber, contactType, phoneNumber, telegramNickname, feedbackType])
     
-    // Функция для проверки формата номера телефона
     const phoneNumberIsValid = () => {
-      const phoneNumberRegex = /^\+380\d{9}$/; // Формат: "+380XXXXXXXXX", где X - цифра
+      const phoneNumberRegex = /^\+380\d{9}$/;
       return phoneNumberRegex.test(phoneNumber);
     }
     
-    // Функция для проверки имени пользователя Telegram
     const telegramNicknameIsValid = () => {
-      const telegramNicknameRegex = /^@[\w\d_]{5,}$/; // Имя пользователя должно начинаться с "@" и содержать только буквы, цифры и "_", минимум 5 символов
+      const telegramNicknameRegex = /^@[\w\d_]{5,}$/;
       return telegramNicknameRegex.test(telegramNickname);
     }
 
@@ -61,37 +59,6 @@ const Form = () => {
         tg.MainButton.show();
       }
     }, [name])
-  
-    const handleSubmit = (e) => {
-     /* e.preventDefault();
-  
-      const data = {
-        orderNumber,
-        contactType,
-        phoneNumber,
-        message,
-        feedbackType,
-      };
-  
-      // Отправить данные на сервер (API)
-      axios.post('/feedback', data)
-        .then(response => {
-          console.log('Форма успешно отправлена!');
-          // Очистить форму
-          setOrderNumber('');
-          setContactType('phone');
-          setPhoneNumber('');
-          setMessage('');
-        })
-        .catch(error => {
-          console.error('Ошибка отправки формы:', error);
-        });
-    };
-  
-    const handleFeedbackTypeChange = (e) => {
-      setFeedbackType(e.target.value);*/
-      console.log('Отправлено:' + e)
-    };
   
     return (
       <div className='feedback-body'>
@@ -117,7 +84,7 @@ const Form = () => {
           </button>
         </div>
   
-        <form className='feedback-form' onSubmit={handleSubmit}>
+        <form className='feedback-form'>
           <div className="form-group">
             <label htmlFor="orderNumber">Номер замовлення:</label>
             <select
