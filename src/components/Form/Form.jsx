@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {useTelegram} from '../../Hooks/Telegram';
 import './Form.css';
 
 const Form = () => {
@@ -7,9 +8,25 @@ const Form = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [message, setMessage] = useState('');
     const [feedbackType, setFeedbackType] = useState('complaint'); // 'question' или 'complaint'
+
+    const {tg} = useTelegram();
+
+    useEffect( () => {
+      tg.MainButton.setParams( {
+        text: 'Отправить'
+      })
+    }, [])
+
+    useEffect( () => {
+      if(!message) {
+        tg.MainButton.hide();
+      } else {
+        tg.MainButton.show();
+      }
+    }, [message])
   
     const handleSubmit = (e) => {
-      e.preventDefault();
+     /* e.preventDefault();
   
       const data = {
         orderNumber,
@@ -35,12 +52,16 @@ const Form = () => {
     };
   
     const handleFeedbackTypeChange = (e) => {
-      setFeedbackType(e.target.value);
+      setFeedbackType(e.target.value);*/
+      console.log('Отправлено:' + e)
     };
   
     return (
       <div className='feedback-body'>
-        <h2>Обратная связь</h2>
+        <span className='feedback-title'>У вас виникли якісь питання? Бажаєте залишити скаргу? Без проблем! Зв'яжіться з нами, заповнивши нижче поля, і ми обов'язково відповімо вам!
+        <br/>
+        <br/>
+        <b>Середній час очікування відповіді – 15 хвилин</b></span>
   
         <div className="feedback-type-buttons">
           <button
@@ -48,20 +69,20 @@ const Form = () => {
             className={feedbackType === 'question' ? '_active' : ''}
             onClick={() => setFeedbackType('question')}
           >
-            ВОПРОС
+            ПИТАННЯ
           </button>
           <button
             type="button"
             className={feedbackType === 'complaint' ? '_active' : ''}
             onClick={() => setFeedbackType('complaint')}
           >
-            ЖАЛОБА
+            СКАРГА
           </button>
         </div>
   
         <form className='feedback-form' onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="orderNumber">Номер заказа:</label>
+            <label htmlFor="orderNumber">Номер замовлення:</label>
             <select
               id="orderNumber"
               name="orderNumber"
@@ -75,21 +96,21 @@ const Form = () => {
           </div>
   
           <div className="form-group">
-            <label htmlFor="contactType">Способ связи:</label>
+            <label htmlFor="contactType">Спосіб зв'язку:</label>
             <select
               id="contactType"
               name="contactType"
               value={contactType}
               onChange={(e) => setContactType(e.target.value)}
             >
-              <option value="phone">Номер телефона</option>
+              <option value="phone">Номер телефону</option>
               <option value="telegram">Telegram чат</option>
             </select>
           </div>
   
           {contactType === 'phone' && (
             <div className="form-group">
-              <label htmlFor="phoneNumber">Номер телефона:</label>
+              <label htmlFor="phoneNumber">Номер телефону:</label>
               <input
                 type="tel"
                 id="phoneNumber"
@@ -102,7 +123,7 @@ const Form = () => {
           )}
   
           <div className="form-group">
-            <label htmlFor="message">{feedbackType === 'complaint' ? 'Суть жалобы:' : 'Суть вопроса:'}</label>
+            <label htmlFor="message">{feedbackType === 'complaint' ? 'Ваша скарга:' : 'Ваше запитання:'}</label>
             <textarea
               id="message"
               name="message"

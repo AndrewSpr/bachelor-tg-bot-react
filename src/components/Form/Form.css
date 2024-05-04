@@ -5,6 +5,11 @@
     height: 250px;
 }
 
+.feedback-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
 .feedback-type-buttons {
     display: flex;
     justify-content: space-between;
