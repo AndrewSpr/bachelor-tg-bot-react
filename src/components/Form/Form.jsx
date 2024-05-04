@@ -54,13 +54,13 @@ const Form = () => {
       })
     }, [])
 
-    /*useEffect( () => {
+    useEffect( () => {
       if(!message) {
         tg.MainButton.hide();
       } else {
         tg.MainButton.show();
       }
-    }, [message])*/
+    }, [message])
   
     const handleSubmit = (e) => {
      /* e.preventDefault();
