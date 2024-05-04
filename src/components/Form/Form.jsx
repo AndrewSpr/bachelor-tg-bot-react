@@ -20,7 +20,7 @@ const Form = () => {
         feedbackType
       }
       tg.sendData(JSON.stringify(data));
-    }, [])
+    }, [orderNumber, contactType, phoneNumber, message, feedbackType])
 
     useEffect( () => {
       tg.onEvent('mainButtonClicked', onSendData)
