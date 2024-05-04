@@ -11,6 +11,24 @@ const Form = () => {
 
     const {tg} = useTelegram();
 
+    const onSendData = useCallBack( () => {
+      const data = {
+        orderNumber,
+        contactType,
+        phoneNumber,
+        message,
+        feedbackType
+      }
+      tg.sendData(JSON.stringify(data));
+    }, [])
+
+    useEffect( () => {
+      tg.WebApp.onEvent('mainButtonClicked', onSendData)
+      return () => {
+        tg.WebApp.offEvent('mainButtonClicked', onSendData)
+      }
+    }, [])
+
     useEffect( () => {
       tg.MainButton.setParams( {
         text: 'Отправить'
