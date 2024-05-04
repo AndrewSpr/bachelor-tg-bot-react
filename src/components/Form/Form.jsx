@@ -12,7 +12,12 @@ const Form = () => {
 
     const {tg} = useTelegram();
 
-    const onSendData = useCallback( () => {
+    const onSendData = useCallback(() => {
+      if (!name || !phoneNumberIsValid() || (contactType === 'telegram' && !telegramNicknameIsValid())) {
+        alert('Пожалуйста, заполните все обязательные поля корректно.');
+        return;
+      }
+    
       const data = {
         name,
         orderNumber,
@@ -23,6 +28,18 @@ const Form = () => {
       }
       tg.sendData(JSON.stringify(data));
     }, [name, orderNumber, contactType, phoneNumber, telegramNickname, feedbackType])
+    
+    // Функция для проверки формата номера телефона
+    const phoneNumberIsValid = () => {
+      const phoneNumberRegex = /^\+380\d{9}$/; // Формат: "+380XXXXXXXXX", где X - цифра
+      return phoneNumberRegex.test(phoneNumber);
+    }
+    
+    // Функция для проверки имени пользователя Telegram
+    const telegramNicknameIsValid = () => {
+      const telegramNicknameRegex = /^@[\w\d_]{5,}$/; // Имя пользователя должно начинаться с "@" и содержать только буквы, цифры и "_", минимум 5 символов
+      return telegramNicknameRegex.test(telegramNickname);
+    }
 
     useEffect( () => {
       tg.onEvent('mainButtonClicked', onSendData)
