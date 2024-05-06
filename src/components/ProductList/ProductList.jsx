@@ -7,25 +7,27 @@ const ProductList = () => {
     const slides = [
         {
           image: './images/pizza.png',
-          title: 'Замов піцу через Telegram',
-          subtitle: 'Отримай знижку 25% на наступні 2 позиції',
+          title: 'Замов піцу через Telegram і отримай знижку 25% на наступні 2 позиції',
         },
         {
           image: './images/sushi.png',
-          title: 'Замов суші через Telegram',
-          subtitle: 'Отримай знижку 25% на наступні 2 позиції',
+          title: 'Замов піцу через Telegram і отримай знижку 25% на наступні 2 позиції',
         },
       ];
     
       useEffect(() => {
         const swiper = new Swiper('.swiper-container', {
-          loop: true,
           autoplay: {
             delay: 2000,
+            disableOnInteraction: false,
           },
           slidesPerView: 1.5,
           spaceBetween: 50,
         });
+
+        return () => {
+            swiper.destroy();
+          };
       }, []);
     
       return (
@@ -36,8 +38,7 @@ const ProductList = () => {
                 <div className="swiper-slide" key={slide.image}>
                   <img src={slide.image} alt={slide.title} />
                   <div className="content">
-                    <h2>{slide.title}</h2>
-                    <p>{slide.subtitle}</p>
+                    <p>{slide.title}</p>
                   </div>
                 </div>
               ))}
