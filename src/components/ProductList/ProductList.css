@@ -19,9 +19,11 @@
 
 .product-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Задает ширину колонок, которые могут автоматически меняться */
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); /* Задает ширину колонок, которые могут автоматически меняться */
     grid-gap: 15px; /* Промежуток между блоками */
     grid-auto-flow: dense; /* Перенос блоков при нехватке места */
+    justify-items: center;
+    align-items: center;
 }
 
 .product-card {
@@ -41,7 +43,7 @@
 }
 
 .product-card__sub-title {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .product-card__footer {
