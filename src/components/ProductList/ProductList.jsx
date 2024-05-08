@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Swiper from 'swiper';
 import 'swiper/css';
 import './ProductList.css';
@@ -35,13 +34,10 @@ const ProductList = () => {
       const [products, setProducts] = useState([]);
 
       useEffect(() => {
-        axios.get('/api/products')
-          .then(response => {
-            setProducts(response.data);
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        fetch('http://localhost:3001/products')
+          .then(response => response.json())
+          .then(data => setProducts(data))
+          .catch(error => console.error('Error fetching products:', error));
       }, []);
 
       return (
@@ -61,18 +57,18 @@ const ProductList = () => {
             </div>
           </div>
           <div>
-      <h1>Список товаров</h1>
-      <div className="product-list">
-        {products.map(product => (
-          <div key={product.id} className="product-card">
-            <h2>{product.title}</h2>
-            <p>{product.subtitle}</p>
-            <p>Цена: {product.price} ₽</p>
-            <p>Категория: {product.category}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+          <h1>Product List</h1>
+          <div className="product-list">
+            {products.map(product => (
+            <div key={product.id} className="product-card">
+              <h2>{product.title}</h2>
+              <p>{product.subtitle}</p>
+              <p>Price: {product.price}</p>
+              <p>Category: {product.category}</p>
+            </div>
+            ))}
+        </div>
+        </div>
           {/* <div className="product-list">
           {products.map(product => (
               <div className="product-card" key={product.id}>
