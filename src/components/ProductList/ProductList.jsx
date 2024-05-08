@@ -31,17 +31,48 @@ const ProductList = () => {
       }, []);
     
       return (
-        <div className="banner">
-          <div className="swiper-container">
-            <div className="swiper-wrapper">
-              {slides.map((slide) => (
-                <div className="swiper-slide" key={slide.image}>
-                  <img src={slide.image} alt={slide.title} />
-                  <div className="content">
-                    <p>{slide.title}</p>
+        <div className="container">
+          <div className="banner">
+            <div className="swiper-container">
+              <div className="swiper-wrapper">
+                {slides.map((slide) => (
+                  <div className="swiper-slide" key={slide.image}>
+                    <img src={slide.image} alt={slide.title} />
+                    <div className="content">
+                      <p>{slide.title}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="product-list">
+            <div className="product-card">
+              <img src="./images/sushi.png" alt="#" />
+              <div className="product-card__title">Сет "Українська Каліфорнія"</div>
+              <div className="product-card__sub-title">Каліфорнія в кунжуті з вугрем, Каліфорнія в ікрі з лососем, Каліфорнія в ікрі з крабом</div>
+              <div className="product-card__footer">
+                <div className="product-card__price">300 ГРН.</div>
+                <button>ДО КОШИКА</button>
+              </div>
+            </div>
+            <div className="product-card">
+              <img src="./images/sushi.png" alt="#" />
+              <div className="product-card__title">Сет "Українська Каліфорнія"</div>
+              <div className="product-card__sub-title">Каліфорнія в кунжуті з вугрем, Каліфорнія в ікрі з лососем, Каліфорнія в ікрі з крабом</div>
+              <div className="product-card__footer">
+                <div className="product-card__price">300 ГРН.</div>
+                <button>ДО КОШИКА</button>
+              </div>
+            </div>
+            <div className="product-card">
+              <img src="./images/sushi.png" alt="#" />
+              <div className="product-card__title">Сет "Українська Каліфорнія"</div>
+              <div className="product-card__sub-title">Каліфорнія в кунжуті з вугрем, Каліфорнія в ікрі з лососем, Каліфорнія в ікрі з крабом</div>
+              <div className="product-card__footer">
+                <div className="product-card__price">300 ГРН.</div>
+                <button>ДО КОШИКА</button>
+              </div>
             </div>
           </div>
         </div>

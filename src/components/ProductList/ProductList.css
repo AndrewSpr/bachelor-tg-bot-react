@@ -16,3 +16,50 @@
     text-align: center;
     font-size: 14px;
 }
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Задает ширину колонок, которые могут автоматически меняться */
+    grid-gap: 15px; /* Промежуток между блоками */
+    grid-auto-flow: dense; /* Перенос блоков при нехватке места */
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 230px;
+    height: 250px;
+    border: 1px solid #C7C7C7;
+    border-radius: 5px;
+}
+
+.product-card__title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.product-card__sub-title {
+    font-size: 12px;
+}
+
+.product-card__footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product-card__price {
+    font-weight: bold;
+}
+
+.product-card__footer button {
+    width: 100px;
+    height: 30px;
+    background-color: #10121E;
+    border: none;
+    border-radius: 20px;
+    color: white
+}
