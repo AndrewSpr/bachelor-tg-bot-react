@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Cart from '../Cart/Cart'; // Импортируем компонент корзины
 import Swiper from 'swiper';
 import 'swiper/css';
 import './ProductList.css';
 
 const ProductList = () => {
-
     const slides = [
         {
           image: './images/pizza.png',
@@ -14,9 +14,9 @@ const ProductList = () => {
           image: './images/sushi.png',
           title: 'Замов піцу через Telegram і отримай знижку 25% на наступні 2 позиції',
         },
-      ];
-    
-      useEffect(() => {
+    ];
+
+    useEffect(() => {
         const swiper = new Swiper('.swiper-container', {
           autoplay: {
             delay: 2000,
@@ -28,37 +28,42 @@ const ProductList = () => {
 
         return () => {
             swiper.destroy();
-          };
-      }, []);
+        };
+    }, []);
 
-      const [products, setProducts] = useState([]);
-      const [categories, setCategories] = useState([]);
-      const [selectedCategory, setSelectedCategory] = useState('');
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [cart, setCart] = useState([]); // Состояние корзины
 
-      useEffect(() => {
+    // Функция для добавления товара в корзину
+    const addToCart = (product) => {
+        setCart([...cart, product]);
+    };
+
+    useEffect(() => {
         fetch(`http://localhost:3001/products`)
           .then(response => response.json())
           .then(data => {
-            // Получаем уникальные категории из полученных товаров
             const uniqueCategories = [...new Set(data.map(product => product.category))];
             setCategories(uniqueCategories);
             setProducts(data);
           })
           .catch(error => console.error('Error fetching products:', error));
-      }, []); // Получаем список всех товаров и их категорий при загрузке компонента
+    }, []);
 
-      useEffect(() => {
-        fetch(`http://localhost:3001/products${selectedCategory ? `?category=${selectedCategory}` : ''}`) // Добавляем выбранную категорию к запросу, если она выбрана
+    useEffect(() => {
+        fetch(`http://localhost:3001/products${selectedCategory ? `?category=${selectedCategory}` : ''}`)
           .then(response => response.json())
           .then(data => setProducts(data))
           .catch(error => console.error('Error fetching products:', error));
-      }, [selectedCategory]); // Запускаем запрос при изменении выбранной категории
+    }, [selectedCategory]);
 
-      const handleCategoryChange = (e) => {
+    const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
-      };
+    };
 
-      return (
+    return (
         <div className="container">
           <div className="banner">
             <div className="swiper-container">
@@ -83,20 +88,21 @@ const ProductList = () => {
             </select>
           </div>
           <div className="product-list">
-          {products.map(product => (
+            {products.map(product => (
               <div className="product-card" key={product.id}>
                 <img src='./images/pizza.png' alt='#' />
                 <div className="product-card__title">{product.title}</div>
                 <div className="product-card__sub-title">{product.subtitle}</div>
                 <div className="product-card__footer">
                   <div className="product-card__price">{product.price} ГРН.</div>
-                  <button>ДО КОШИКА</button>
+                  <button onClick={() => addToCart(product)}>ДО КОШИКА</button>
                 </div>
               </div>
             ))}
           </div>
+          <Cart cart={cart} /> {/* Выводим компонент корзины */}
         </div>
       );
 };
-  
-  export default ProductList;
+
+export default ProductList;
