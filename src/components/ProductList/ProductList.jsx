@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Cart from '../Cart/Cart'; // Импортируем компонент корзины
 import {useTelegram} from '../../Hooks/Telegram';
 import Swiper from 'swiper';
@@ -80,6 +80,17 @@ const ProductList = () => {
           }
       }, [cart]);
 
+      const onShowCart = useCallback(() => {
+        return <Cart cart={cart} removeFromCart={removeFromCart} />
+      }, [cart])
+
+      useEffect( () => {
+          tg.onEvent('mainButtonClicked', onShowCart)
+        return () => {
+          tg.offEvent('mainButtonClicked', onShowCart)
+        }
+      }, [onShowCart])
+
       useEffect( () => {
         tg.MainButton.setParams( {
           text: `Перейти к корзине (${cart.length})`
@@ -123,7 +134,6 @@ const ProductList = () => {
               </div>
             ))}
           </div>
-          <Cart cart={cart} removeFromCart={removeFromCart} />
         </div>
       );
 };

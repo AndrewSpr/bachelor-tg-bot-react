@@ -1,0 +1,17 @@
+.cart._active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 42%;
+    top: 45%;
+    position: absolute;
+    transition: 0.5s;
+
+    background: white;
+    width: 250px;
+}
+
+.cart {
+    display: none;
+}

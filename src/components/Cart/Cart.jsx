@@ -4,7 +4,7 @@ import './Cart.css';
 
 const Cart = ({ cart, removeFromCart }) => {
     return (
-        <div className="cart">
+        <div className={'cart'}>
             <h2>Корзина</h2>
             {cart.length === 0 ? (
                 <p>Ваша корзина пуста</p>
@@ -14,7 +14,6 @@ const Cart = ({ cart, removeFromCart }) => {
                         <div key={index} className="cart-item">
                             <img src={item.image} alt={item.title} />
                             <div className="item-details">
-                                <p>{item.title}</p>
                                 <p>{item.price} ГРН.</p>
                                 <button onClick={() => removeFromCart(index)}>Удалить</button>
                             </div>
