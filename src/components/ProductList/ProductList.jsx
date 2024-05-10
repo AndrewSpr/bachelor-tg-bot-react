@@ -32,13 +32,31 @@ const ProductList = () => {
       }, []);
 
       const [products, setProducts] = useState([]);
+      const [categories, setCategories] = useState([]);
+      const [selectedCategory, setSelectedCategory] = useState('');
 
       useEffect(() => {
-        fetch('http://localhost:3001/products')
+        fetch(`http://localhost:3001/products`)
+          .then(response => response.json())
+          .then(data => {
+            // Получаем уникальные категории из полученных товаров
+            const uniqueCategories = [...new Set(data.map(product => product.category))];
+            setCategories(uniqueCategories);
+            setProducts(data);
+          })
+          .catch(error => console.error('Error fetching products:', error));
+      }, []); // Получаем список всех товаров и их категорий при загрузке компонента
+
+      useEffect(() => {
+        fetch(`http://localhost:3001/products${selectedCategory ? `?category=${selectedCategory}` : ''}`) // Добавляем выбранную категорию к запросу, если она выбрана
           .then(response => response.json())
           .then(data => setProducts(data))
           .catch(error => console.error('Error fetching products:', error));
-      }, []);
+      }, [selectedCategory]); // Запускаем запрос при изменении выбранной категории
+
+      const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+      };
 
       return (
         <div className="container">
@@ -57,19 +75,14 @@ const ProductList = () => {
             </div>
           </div>
           <div>
-          <h1>Product List</h1>
+            <select value={selectedCategory} onChange={handleCategoryChange}>
+              <option value="">Все товары</option>
+              {categories.map(category => (
+              <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
           <div className="product-list">
-            {products.map(product => (
-            <div key={product.id} className="product-card">
-              <h2>{product.title}</h2>
-              <p>{product.subtitle}</p>
-              <p>Price: {product.price}</p>
-              <p>Category: {product.category}</p>
-            </div>
-            ))}
-        </div>
-        </div>
-          {/* <div className="product-list">
           {products.map(product => (
               <div className="product-card" key={product.id}>
                 <img src='./images/pizza.png' alt='#' />
@@ -81,7 +94,7 @@ const ProductList = () => {
                 </div>
               </div>
             ))}
-          </div> */}
+          </div>
         </div>
       );
 };
