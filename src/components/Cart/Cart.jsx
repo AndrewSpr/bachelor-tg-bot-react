@@ -1,10 +1,11 @@
 import React from 'react';
 import './Cart.css';
 
+const Cart = ({ cart, removeFromCart, isCartActive }) => {
+    const cartClassName = `cart${isCartActive ? ' _active' : ''}`;
 
-const Cart = ({ cart, removeFromCart }) => {
     return (
-        <div className={'cart'}>
+        <div className={cartClassName}>
             <h2>Корзина</h2>
             {cart.length === 0 ? (
                 <p>Ваша корзина пуста</p>

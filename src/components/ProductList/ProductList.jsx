@@ -80,8 +80,10 @@ const ProductList = () => {
           }
       }, [cart]);
 
+      const [isCartActive, setIsCartActive] = useState(false);
+
       const onShowCart = useCallback(() => {
-        return <Cart cart={cart} removeFromCart={removeFromCart} />
+        return setIsCartActive(true);
       }, [cart])
 
       useEffect( () => {
@@ -134,6 +136,7 @@ const ProductList = () => {
               </div>
             ))}
           </div>
+          <Cart isCartActive={isCartActive} cart={cart} removeFromCart={removeFromCart} />
         </div>
       );
 };
