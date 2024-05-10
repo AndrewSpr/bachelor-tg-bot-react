@@ -41,6 +41,12 @@ const ProductList = () => {
         setCart([...cart, product]);
     };
 
+    const removeFromCart = (index) => {
+      const newCart = [...cart];
+      newCart.splice(index, 1);
+      setCart(newCart);
+  };
+
     useEffect(() => {
         fetch(`http://localhost:3001/products`)
           .then(response => response.json())
@@ -100,7 +106,7 @@ const ProductList = () => {
               </div>
             ))}
           </div>
-          <Cart cart={cart} /> {/* Выводим компонент корзины */}
+          <Cart cart={cart} removeFromCart={removeFromCart} />
         </div>
       );
 };

@@ -1,7 +1,8 @@
 import React from 'react';
 import './Cart.css';
 
-const Cart = ({ cart }) => {
+
+const Cart = ({ cart, removeFromCart }) => {
     return (
         <div className="cart">
             <h2>Корзина</h2>
