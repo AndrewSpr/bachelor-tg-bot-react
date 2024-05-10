@@ -72,7 +72,6 @@ const ProductList = () => {
         setSelectedCategory(e.target.value);
     };
 
-        // Новое условие: выводим сообщение в консоль, если в корзине есть товары
         useEffect(() => {
           if (cart.length > 0) {
               tg.MainButton.show();
@@ -80,6 +79,12 @@ const ProductList = () => {
               tg.MainButton.hide();
           }
       }, [cart]);
+
+      useEffect( () => {
+        tg.MainButton.setParams( {
+          text: `Перейти к корзине (${cart.length})`
+        })
+      }, [cart])
 
     return (
         <div className="container">
