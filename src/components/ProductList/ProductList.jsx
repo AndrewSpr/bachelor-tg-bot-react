@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Cart from '../Cart/Cart'; // Импортируем компонент корзины
+import {useTelegram} from '../../Hooks/Telegram';
 import Swiper from 'swiper';
 import 'swiper/css';
 import './ProductList.css';
+
+const {tg} = useTelegram();
 
 const ProductList = () => {
     const slides = [
@@ -68,6 +71,15 @@ const ProductList = () => {
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
     };
+
+        // Новое условие: выводим сообщение в консоль, если в корзине есть товары
+        useEffect(() => {
+          if (cart.length > 0) {
+              tg.MainButton.show();
+          } else {
+              tg.MainButton.hide();
+          }
+      }, [cart]);
 
     return (
         <div className="container">
