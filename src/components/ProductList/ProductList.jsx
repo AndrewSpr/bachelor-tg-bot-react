@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Cart from '../Cart/Cart'; // Импортируем компонент корзины
+import Cart from '../Cart/Cart';
 import {useTelegram} from '../../Hooks/Telegram';
 import Swiper from 'swiper';
 import 'swiper/css';
@@ -86,6 +86,10 @@ const ProductList = () => {
         return setIsCartActive(true);
       }, [cart])
 
+      const handleHideCart = () => {
+        setIsCartActive(false);
+    };
+
       useEffect( () => {
           tg.onEvent('mainButtonClicked', onShowCart)
         return () => {
@@ -95,7 +99,7 @@ const ProductList = () => {
 
       useEffect( () => {
         tg.MainButton.setParams( {
-          text: `Перейти к корзине (${cart.length})`
+          text: `Переглянути кошик (${cart.length})`
         })
       }, [cart])
 
@@ -136,7 +140,7 @@ const ProductList = () => {
               </div>
             ))}
           </div>
-          <Cart isCartActive={isCartActive} cart={cart} removeFromCart={removeFromCart} />
+          <Cart isCartActive={isCartActive} onHideCart={handleHideCart} cart={cart} removeFromCart={removeFromCart} />
         </div>
       );
 };

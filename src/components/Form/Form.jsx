@@ -95,7 +95,6 @@ const Form = () => {
               disabled={feedbackType === 'question'}
               required={feedbackType === 'complaint'}
             >
-              {/* Заполнить данными из базы данных mySQL */}
             </select>
           </div>
           <div className="form-group">
