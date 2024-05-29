@@ -34,6 +34,7 @@ const ProductList = () => {
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [image, setImage] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [cart, setCart] = useState([]); // Состояние корзины
 
@@ -128,7 +129,7 @@ const ProductList = () => {
           <div className="product-list">
             {products.map(product => (
               <div className="product-card" key={product.id}>
-                <img src='./images/pizza.png' alt='#' />
+                <img src='./images/sushi.png' alt='#' />
                 <div className="product-card__title">{product.title}</div>
                 <div className="product-card__sub-title">{product.subtitle}</div>
                 <div className="product-card__footer">
