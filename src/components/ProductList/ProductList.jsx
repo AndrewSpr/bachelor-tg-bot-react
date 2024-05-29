@@ -8,16 +8,7 @@ import './ProductList.css';
 const {tg} = useTelegram();
 
 const ProductList = () => {
-    const slides = [
-        {
-          image: './images/pizza.png',
-          title: 'Замов піцу через Telegram і отримай знижку 25% на наступні 2 позиції',
-        },
-        {
-          image: './images/sushi.png',
-          title: 'Замов піцу через Telegram і отримай знижку 25% на наступні 2 позиції',
-        },
-    ];
+    const [banners, setBanners] = useState([]);
 
     useEffect(() => {
         const swiper = new Swiper('.swiper-container', {
@@ -33,6 +24,13 @@ const ProductList = () => {
             swiper.destroy();
         };
     }, []);
+
+    useEffect(() => {
+      fetch('http://localhost:3001/banners')
+          .then(response => response.json())
+          .then(data => setBanners(data))
+          .catch(error => console.error('Error fetching banners:', error));
+  }, []);
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -108,9 +106,9 @@ const ProductList = () => {
           <div className="banner">
             <div className="swiper-container">
               <div className="swiper-wrapper">
-                {slides.map((slide) => (
-                  <div className="swiper-slide" key={slide.image}>
-                    <img src={slide.image} alt={slide.title} />
+                {banners.map((slide, index) => (
+                  <div className="swiper-slide" key={index}>
+                    <img src={slide.img_src} alt={slide.title} />
                     <div className="content">
                       <p>{slide.title}</p>
                     </div>
