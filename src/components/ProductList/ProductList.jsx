@@ -129,7 +129,7 @@ const ProductList = () => {
           <div className="product-list">
             {products.map(product => (
               <div className="product-card" key={product.id}>
-                <img src='./images/sushi.png' alt='#' />
+                <img src={product.img} alt='#' />
                 <div className="product-card__title">{product.title}</div>
                 <div className="product-card__sub-title">{product.subtitle}</div>
                 <div className="product-card__footer">
